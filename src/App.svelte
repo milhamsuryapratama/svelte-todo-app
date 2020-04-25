@@ -9,11 +9,13 @@
 
 	function submitForm(event) {
 		let to = event.target.todo.value;
-		if (edited) 
-			todos[editeId] = to
-		else			
+		if (edited) {
+			todos[editeId] = to;
+			edited = false;
+		} else {
 			todos = [...todos, to];
 			todo = '';
+		}
 	}
 
 	function hapusTodo(event) {
