@@ -1,17 +1,17 @@
 <script>
-    import { createEventDispatcher } from 'svelte';
+  import { createEventDispatcher } from "svelte";
 
-    export let data;
+  export let data;
 
-    const dispatch = createEventDispatcher();
+  const dispatch = createEventDispatcher();
 
-    function hapusData(i) {
-      dispatch('hapusTodo', { id: i })
-    }
+  function hapusData(i) {
+    dispatch("hapusTodo", { id: i });
+  }
 
-    function editData(i) {
-      dispatch('editTodo', { id: i });
-    }
+  function editData(i) {
+    dispatch("editTodo", { id: i });
+  }
 </script>
 
 <table class="table table-bordered">
@@ -25,19 +25,29 @@
   <tbody>
     {#if data.length > 0}
       {#each data as d, i}
-          <tr>
-              <td>{i + 1}</td>
-              <td>{d}</td>
-              <td>
-                <button type="button" class="btn btn-primary" on:click={() => editData(i)}>Edit</button>
-                <button type="button" class="btn btn-danger" on:click={() => hapusData(i)}>Hapus</button>
-              </td>
-          </tr>
+        <tr>
+          <td>{i + 1}</td>
+          <td>{d}</td>
+          <td>
+            <button
+              type="button"
+              class="btn btn-primary"
+              on:click={() => editData(i)}>
+              Edit
+            </button>
+            <button
+              type="button"
+              class="btn btn-danger"
+              on:click={() => hapusData(i)}>
+              Hapus
+            </button>
+          </td>
+        </tr>
       {/each}
-    {:else}  
+    {:else}
       <tr>
-        <td colspan="3" style="text-align: center"> Tidak ada data </td>
+        <td colspan="3" style="text-align: center">Tidak ada data</td>
       </tr>
-    {/if}    
+    {/if}
   </tbody>
 </table>
