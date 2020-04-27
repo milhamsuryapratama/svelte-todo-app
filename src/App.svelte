@@ -1,21 +1,23 @@
 <script>
 	import Header from './ui/Header.svelte';
 	import Tabel from './component/Data.svelte';
+	import TextInput from './ui/TextInput.svelte';
 
 	let todo;
 	let todos = [];
 	let edited = false;
 	let editeId;
 
+	$: console.log(todo);
+
 	function submitForm(event) {
-		let to = event.target.todo.value;
 		if (edited) {
-			todos[editeId] = to;
+			todos[editeId] = todo;
 			edited = false;
 		} else {
-			todos = [...todos, to];
-			todo = '';
+			todos = [...todos, todo];			
 		}
+		todo = '';
 	}
 
 	function hapusTodo(event) {
