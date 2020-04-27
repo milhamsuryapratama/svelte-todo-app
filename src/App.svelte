@@ -36,15 +36,7 @@
 <Header/>
 
 <div class="row">
-	<div class="col-md-6">
-		<form on:submit|preventDefault={submitForm}>
-			<div class="form-group">
-				<label for="exampleInputEmail1">Todo</label>
-				<input type="text" class="form-control" id="todo" name="todo" aria-describedby="emailHelp" bind:value={todo}>
-			</div>
-			<button type="submit" class="btn btn-primary">Submit</button>
-		</form>	
-	</div>
+	<TextInput on:input={event => (todo = event.target.value)}  on:submit={submitForm} value={todo}/>
 
 	<div class="col-md-6">
 		<Tabel 
