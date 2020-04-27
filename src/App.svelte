@@ -1,11 +1,12 @@
 <script>
 	import todoStore from './store/todoStore.js';
+	import { onDestroy } from 'svelte';
 	import Header from './ui/Header.svelte';
 	import Tabel from './component/Data.svelte';
 
 	let todos;
 
-	todoStore.subscribe(t => {
+	const unsubscribe = todoStore.subscribe(t => {
 		todos = t;
 	});
 
@@ -14,6 +15,8 @@
 	let todo;
 	let edited = false;
 	let editeId;
+
+	onDestroy(unsubscribe);
 
 	function submitForm(event) {
 		if (edited) {
