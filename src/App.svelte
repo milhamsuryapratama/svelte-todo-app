@@ -1,27 +1,37 @@
 <script>
+	import todoStore from './store/todoStore.js';
 	import Header from './ui/Header.svelte';
 	import Tabel from './component/Data.svelte';
 
+	let todos;
+
+	todoStore.subscribe(t => {
+		todos = t;
+	});
+
+	$: console.log(todoStore);
+
 	let todo;
-	let todos = [];
 	let edited = false;
 	let editeId;
 
 	function submitForm(event) {
-		let to = event.target.todo.value;
 		if (edited) {
-			todos[editeId] = to;
-			edited = false;
+			todos[editeId] = event.target.todo.value;
+			todoStore.set(todos);
 		} else {
-			todos = [...todos, to];
-			todo = '';
+			todoStore.update(t => {
+				return [...t, todo];
+			});
 		}
+		editeId = null;
+		edited = false;
+		todo = '';
 	}
 
 	function hapusTodo(event) {
-		let to = todos;
-		to.splice(event.detail.id, 1);
-		todos = to;
+		todos.splice(event.detail.id, 1);
+		todoStore.set(todos);
 	}
 
 	function editTodo(event) {
