@@ -22,11 +22,9 @@
   function submitForm(event) {
     if (edited) {
       todos[editeId] = event.target.todo.value;
-      todoStore.set(todos);
+      todoStore.updateTodo(todos);
     } else {
-      todoStore.update(t => {
-        return [...t, todo];
-      });
+      todoStore.submitForm(todo);
     }
     editeId = null;
     edited = false;
@@ -34,8 +32,7 @@
   }
 
   function hapusTodo(event) {
-    todos.splice(event.detail.id, 1);
-    todoStore.set(todos);
+    todoStore.deleteTodo(event.detail.id);
   }
 
   function editTodo(event) {
