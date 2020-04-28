@@ -1,19 +1,24 @@
 <script>
-  import todoStore from "./store/todoStore.js";
+  import biodataStore from "./store/biodataStore.js";
   import { onDestroy } from "svelte";
   import Header from "./ui/Header.svelte";
   import Tabel from "./component/Data.svelte";
-  import TextInput from './ui/TextInput.svelte';
+  import TextInput from "./ui/TextInput.svelte";
 
-  let todos;
+  let biodata;
 
-  const unsubscribe = todoStore.subscribe(t => {
-    todos = t;
+  const unsubscribe = biodataStore.subscribe(bio => {
+    biodata = bio;
   });
 
-  $: console.log(todoStore);
+  $: console.log(biodata);
 
-  let todo;
+  let data = {
+    id: Math.random(),
+    nama: "",
+    alamat: "",
+    jk: ""
+  };
   let edited = false;
   let editeId;
 
@@ -21,32 +26,64 @@
 
   function submitForm(event) {
     if (edited) {
-      todos[editeId] = event.target.todo.value;
-      todoStore.updateTodo(todos);
+      biodata[editeId] = data;
+      biodataStore.updateBiodata(biodata);
     } else {
-      todoStore.submitForm(todo);
+      biodataStore.addBiodata(data);
     }
     editeId = null;
     edited = false;
-    todo = "";
+    resetData();
   }
 
-  function hapusTodo(event) {
-    todoStore.deleteTodo(event.detail.id);
+  function resetData() {
+    data = {
+      id: Math.random(),
+      nama: "",
+      alamat: ""
+    };
   }
 
-  function editTodo(event) {
+  function hapusBiodata(event) {
+    biodataStore.deleteBiodata(event.detail.id);
+  }
+
+  function editBiodata(event) {
     edited = true;
     editeId = event.detail.id;
-    todo = todos[event.detail.id];
+    data = biodata[event.detail.id];
   }
 </script>
 
 <Header />
 
 <div class="row">
-	<TextInput on:input={event => (todo = event.target.value)} on:submit={submitForm} value={todo} />
   <div class="col-md-6">
-    <Tabel data={todos} on:hapusTodo={hapusTodo} on:editTodo={editTodo} />
+    <form on:submit|preventDefault={submitForm}>
+      <label for="exampleInputEmail1">Nama</label>
+      <TextInput
+        on:input={event => (data.nama = event.target.value)}
+        value={data.nama} />
+      <label for="exampleInputEmail1">Alamat</label>
+      <TextInput
+        on:input={event => (data.alamat = event.target.value)}
+        value={data.alamat} />
+      <label for="exampleInputEmail1">Jenis Kelamin</label>
+      <label>
+        <input type="radio" name="jk" value="L" bind:group={data.jk} checked={data.jk == 'L'} />
+        Laki - Laki
+      </label>
+      <label>
+        <input type="radio" name="jk" value="P" bind:group={data.jk} checked={data.jk == 'P'} />
+        Perempuan
+      </label>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+  <div class="col-md-6">
+    <Tabel
+      data={biodata}
+      on:hapusBiodata={hapusBiodata}
+      on:editBiodata={editBiodata} />
   </div>
 </div>
