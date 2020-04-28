@@ -6,11 +6,11 @@
   const dispatch = createEventDispatcher();
 
   function hapusData(i) {
-    dispatch("hapusTodo", { id: i });
+    dispatch("hapusBiodata", { id: i });
   }
 
   function editData(i) {
-    dispatch("editTodo", { id: i });
+    dispatch("editBiodata", { id: i });
   }
 </script>
 
@@ -18,16 +18,20 @@
   <thead>
     <tr>
       <th scope="col">NO</th>
-      <th scope="col">TODO</th>
+      <th scope="col">NAMA</th>
+      <th scope="col">ALAMAT</th>
+      <th scope="col">JK</th>
       <th scope="col">Action</th>
     </tr>
   </thead>
   <tbody>
     {#if data.length > 0}
-      {#each data as d, i}
+      {#each data as bio, i}
         <tr>
           <td>{i + 1}</td>
-          <td>{d}</td>
+          <td>{bio.nama}</td>
+          <td>{bio.alamat}</td>
+          <td>{bio.jk}</td>
           <td>
             <button
               type="button"
@@ -38,7 +42,7 @@
             <button
               type="button"
               class="btn btn-danger"
-              on:click={() => hapusData(i)}>
+              on:click={() => hapusData(bio.id)}>
               Hapus
             </button>
           </td>
